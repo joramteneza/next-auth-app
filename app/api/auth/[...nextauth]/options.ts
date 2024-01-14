@@ -6,6 +6,7 @@ import GoogleProvider, { GoogleProfile } from "next-auth/providers/google";
 import CredentialsProvider, {
   CredentialsProviderType,
 } from "next-auth/providers/credentials";
+import User from "@/app/(models)/User";
 
 export const options: NextAuthOptions = {
   providers: [
@@ -57,9 +58,11 @@ export const options: NextAuthOptions = {
       },
       async authorize(credentials: any) {
         try {
+          const foundUser = await User.findOne({ email: credentials.email });
         } catch (error) {
-          return null;
+          console.log(error);
         }
+        return null;
       },
     }),
   ],
